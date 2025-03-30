@@ -27,7 +27,7 @@ authForm.addEventListener("submit", async (event) => {
     console.log("fbghjukiuo", response.ok);
     if (response.ok) {
       console.log("Login successful");
-      window.location.href = "dashboard.html";
+      window.location.href = "home.html";
     } else {
       errorMessage.textContent = data.error || "Login failed. Try again.";
     }
