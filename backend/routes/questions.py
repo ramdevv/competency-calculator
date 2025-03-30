@@ -2,9 +2,9 @@ from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
 import os
 
-from ..utils import get_user_by_token
+from utils import get_user_by_token
 
-ques_bp = Blueprint("ans", __name__)
+ques_bp = Blueprint("ques", __name__)
 
 # Configure the Gemini API key
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])

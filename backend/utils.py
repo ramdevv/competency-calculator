@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 from flask import jsonify, session
 import random
 
-from .db import user_collection
+from db import user_collection
 
 
 def get_current_user():

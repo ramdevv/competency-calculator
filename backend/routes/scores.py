@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify, session
 from bson import ObjectId
 
-from ..utils import get_user_by_token
-from ..db import score_collection, user_collection
+from utils import get_user_by_token
+from db import score_collection, user_collection
 
-score_bp = Blueprint("ans", __name__)
+score_bp = Blueprint("score", __name__)
 
 
 @score_bp.route("/evaluation", methods=["GET"])

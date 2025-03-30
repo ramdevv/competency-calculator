@@ -2,8 +2,8 @@ from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
 import os
 
-from ..utils import get_current_user
-from ..db import score_collection
+from utils import get_current_user
+from db import score_collection
 
 ans_bp = Blueprint("ans", __name__)
 

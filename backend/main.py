@@ -1,10 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import google.generativeai as genai
 import os
+from utils import get_user_by_token
 
 
-from .utils import get_user_by_token
 from routes.auth import auth_bp
 from routes.answers import ans_bp
 from routes.questions import ques_bp
