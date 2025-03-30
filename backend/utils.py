@@ -1,9 +1,19 @@
 from bson import ObjectId
 from werkzeug.security import generate_password_hash
-from flask import jsonify, session
+from flask import jsonify, session, request, redirect
 import random
 
 from db import user_collection
+
+
+def secure(func):
+    def wrapper(*args, **kwargs):
+        if not request.cookies.get("login_token"):
+            # return jsonify({"error": "unauthorized"}), 401
+            return redirect("/login.html")
+        return func(*args, **kwargs)
+
+    return wrapper
 
 
 def get_current_user():
@@ -32,4 +42,6 @@ def get_user_by_name(username):
 
 
 def get_user_by_token(token):
+    if not token:
+        return token
     return user_collection.find_one({"login_token": token})

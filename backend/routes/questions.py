@@ -1,8 +1,7 @@
 from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
 import os
-
-from utils import get_user_by_token
+from utils import secure
 
 ques_bp = Blueprint("ques", __name__)
 
@@ -12,9 +11,6 @@ genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
 @ques_bp.route("/aptitude", methods=["GET"])
 def get_aptitude():
-    token = request.cookies.get("login_token")  # getting token
-    if not get_user_by_token(token):
-        return jsonify({"error": "unauthorized"}, 401)
     # Define the prompt
     prompt = """
         Generate 10 multiple-choice aptitude questions designed to assess a candidate's cognitive abilities. Cover the following areas: logical reasoning, numerical reasoning, and verbal reasoning. Each question must have 4 distinct answer choices. Ensure the questions vary in difficulty and cover a range of problem-solving skills relevant to a technical role. 
