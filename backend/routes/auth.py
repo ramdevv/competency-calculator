@@ -8,7 +8,7 @@ from ..utils import create_user, get_user_by_name
 auth_bp = Blueprint("auth", __name__)
 
 
-@auth_bp.route("/api/sign_in/", methods=["POST"])
+@auth_bp.route("/signup", methods=["POST"])
 def sign_in():
 
     print("Request received!")
@@ -37,7 +37,7 @@ def sign_in():
     )
 
 
-@auth_bp.route("/api/login/", methods=["POST", "GET"])
+@auth_bp.route("/login", methods=["POST", "GET"])
 def login():
 
     if request.method == "POST":
@@ -68,7 +68,7 @@ def login():
         return jsonify({"error": "the username and password are incorrect"}), 401
 
 
-@auth_bp.route("/api/logout/", methods=["POST"])
+@auth_bp.route("/logout", methods=["POST"])
 def logout():
     login_token = request.cookies.get("login_token")
 

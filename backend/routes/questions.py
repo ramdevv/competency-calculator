@@ -1,14 +1,16 @@
 from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
-
+import os
 
 from ..utils import get_user_by_token
 
-
 ques_bp = Blueprint("ans", __name__)
 
+# Configure the Gemini API key
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
-@ques_bp.route("/api/get_aptitude", methods=["GET"])
+
+@ques_bp.route("/aptitude", methods=["GET"])
 def get_aptitude():
     token = request.cookies.get("login_token")  # getting token
     if not get_user_by_token(token):
@@ -55,7 +57,7 @@ def get_aptitude():
         )
 
 
-@ques_bp.route("/api/get_communication", methods=["GET"])
+@ques_bp.route("/communications", methods=["GET"])
 def get_communication():
     prompt = """
             Okay, here's a prompt designed to generate 10 multiple-choice aptitude questions for assessing a candidate's communication skills:
@@ -110,7 +112,7 @@ def get_communication():
         )
 
 
-@ques_bp.route("/api/get_technical_questions", methods=["POST"])
+@ques_bp.route("/technical", methods=["POST"])
 def get_technical_questions():
     data = request.get_json()
     job_profile = data.get("job_profile", "software engenner")

@@ -1,6 +1,5 @@
-from flask import Blueprint, request, json, jsonify, session
+from flask import Blueprint, request, jsonify, session
 from bson import ObjectId
-import google.generativeai as genai
 
 from ..utils import get_user_by_token
 from ..db import score_collection, user_collection
@@ -8,7 +7,7 @@ from ..db import score_collection, user_collection
 score_bp = Blueprint("ans", __name__)
 
 
-@score_bp.route("/api/evaluation", methods=["GET"])
+@score_bp.route("/evaluation", methods=["GET"])
 def evaluation():
     user_id = session.get("user_id")
 
@@ -38,7 +37,7 @@ def evaluation():
     return jsonify(total_compitency)
 
 
-@score_bp.route("/api/dashboard/", methods=["GET"])
+@score_bp.route("/dashboard", methods=["GET"])
 def get_dasboard_data():
     token = request.cookies.get("login_token")
 

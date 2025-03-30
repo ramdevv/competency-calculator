@@ -5,16 +5,21 @@ import os
 
 
 from .utils import get_user_by_token
-
-
-# Configure the Gemini API key
-genai.configure(api_key="AIzaSyAg009yAayCLFaRGfkf_MO6-5WMYsMS0-8")
+from routes.auth import auth_bp
+from routes.answers import ans_bp
+from routes.questions import ques_bp
+from routes.scores import score_bp
 
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # this will generate a randome secret key
 CORS(app)
 app.config["SESSION_TYPE"] = "mongodb"
+
+app.register_blueprint(auth_bp, url_prefix="/api/auth")
+app.register_blueprint(ans_bp, url_prefix="/api/answers")
+app.register_blueprint(score_bp, url_prefix="/api/scores")
+app.register_blueprint(ques_bp, url_prefix="/api/questions")
 
 
 @app.route("/api/")

@@ -1,13 +1,17 @@
 from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
+import os
 
 from ..utils import get_current_user
 from ..db import score_collection
 
 ans_bp = Blueprint("ans", __name__)
 
+# Configure the Gemini API key
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
-@ans_bp.route("/api/get_aptianswers", methods=["POST"])
+
+@ans_bp.route("/aptitude", methods=["POST"])
 def get_aptianswers():
     print("🔥 /api/get_aptianswers endpoint hit!")
     new_data = request.get_json()
@@ -71,7 +75,7 @@ def get_aptianswers():
     return jsonify(response_dict)
 
 
-@ans_bp.route("/api/get_comnianswers", methods=["POST"])
+@ans_bp.route("/communications", methods=["POST"])
 def get_comnianswers():
     new_data = request.get_json()
 
@@ -114,7 +118,7 @@ def get_comnianswers():
     return jsonify(response_dict)
 
 
-@ans_bp.route("/api/get_technical_answers", methods=["POST"])
+@ans_bp.route("/technical", methods=["POST"])
 def get_technical_answers():
 
     new_data = request.get_json()
