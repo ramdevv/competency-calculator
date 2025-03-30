@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScriptScribe - Login</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="branding">
+        <h1>Sign In Page</h1>
+        <p>are you compitent enough?</p>
+      </div>
+      <div class="avatar">
+        <p id="showUsername"></p>
+        <p id="logout"></p>
+      </div>
+    </header>
+
+    <div class="auth-container">
+      <section id="authSection">
+        <h2>Welcome candidate!</h2>
+        <form id="authForm">
+          <input type="text" name="username" placeholder="Enter Username" />
+          <input type="password" name="password" placeholder="Enter Password" />
+          <p id="errorMessage" align="left"></p>
+          <div class="auth-buttons">
+            <button type="submit" id="new_button_id">submit</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>Made with ❤️ by Team r4mdev</p>
+      </div>
+    </footer>
+    <script src="static/sign_in.js"></script>
+  </body>
+</html>

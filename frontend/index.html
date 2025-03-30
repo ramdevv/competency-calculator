@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Security Policy -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'; img-src 'self' data:;"
+    />
+
+    <!-- Correct favicon path (same folder as index.html) -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  </head>
+
+  <body>
+    <p>There are two sections to my quiz:</p>
+    <p>The first section is personality</p>
+
+    <button type="button" id="submit_id">Start</button>
+    <p id="new_r"></p>
+
+    <!-- Correct script path -->
+    <script src="static/script.js"></script>
+    <script src="static/auth.js"></script>
+  </body>
+</html>

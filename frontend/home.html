@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+  </head>
+  <body>
+    <!-- Page is hidden initially -->
+    <p>This is the home page</p>
+    <button type="submit" id="buttonid">Go to Aptitude</button>
+    <button type="submit" id="dashid">Dashboard</button>
+    <button type="submit" id="logout">Logout</button>
+
+    <script src="static/auth.js"></script>
+    <!-- Runs first -->
+    <script>
+      checkAndFetch("/api/home");
+    </script>
+    <script src="static/home.js"></script>
+    <!-- Runs after authentication -->
+  </body>
+</html>

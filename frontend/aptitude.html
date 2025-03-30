@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Quiz</title>
+    <link rel="stylesheet" href="/css/quizcss.css" />
+  </head>
+  <body>
+    <header>
+      <h1>TECHNICAL QUIZ</h1>
+    </header>
+
+    <div class="quiz-container">
+      <button type="button" id="button_id">START THE QUIZ</button>
+      <div id="ques_content_id" class="question-container"></div>
+      <div class="button-container">
+        <input
+          type="button"
+          value="SUBMIT"
+          id="submit_id"
+          class="submit-button hidden"
+        />
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025 Modern Quiz Interface</p>
+    </footer>
+    <script src="static/auth.js"></script>
+    <script>
+      checkAndFetch("/api/get_aptitude").then((data) => {
+        if (data) {
+          console.log("Fetched data:", data);
+        }
+      });
+    </script>
+    <script src="static/new_script.js"></script>
+  </body>
+</html>

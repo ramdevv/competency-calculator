@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScriptScribe - Login</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+      .auth-buttons {
+        display: flex;
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 10px; /* Add space between buttons */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="branding">
+        <h1>ScriptScribe</h1>
+        <p>Extract, Summarize, Export</p>
+      </div>
+      <div class="avatar">
+        <p id="showUsername"></p>
+        <p id="logout"></p>
+      </div>
+    </header>
+
+    <div class="auth-container">
+      <section id="quizInfo">
+        <h2>Welcome to the Ultimate Quiz Challenge!</h2>
+        <p>
+          Test your compitency with our exciting quiz! Answer multiple-choice
+          questions from different categories and see how well you score.
+        </p>
+        <h3>Quiz Rules:</h3>
+        <ul>
+          <li>Each quiz consists of 10 multiple-choice questions.</li>
+          <li>You have a 5 muintes to answer each question.</li>
+          <li>Once you select an answer, you cannot change it.</li>
+          <li>
+            after each quiz yore score will be saved and your compitency will be
+            calculated
+          </li>
+          <li>Try to get the highest score and challenge your friends!</li>
+        </ul>
+      </section>
+
+      <section id="authSection">
+        <h2>Welcome candidate !</h2>
+        <form id="authForm">
+          <p id="errorMessage" align="left"></p>
+          <div class="auth-buttons">
+            <button type="submit" id="signupButton">Sign Up</button>
+            <button type="submit" id="loginButton">Login</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>Made with ❤️ by Team r4mdev.</p>
+      </div>
+    </footer>
+    <script src="static/auth.js"></script>
+    <script src="static/start.js"></script>
+  </body>
+</html>

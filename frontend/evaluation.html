@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Scores</title>
+  </head>
+  <body>
+    <p id="questions_id"></p>
+    <button id="fetchScores">Fetch Scores</button>
+    <script src="static/auth.js"></script>
+    <script>
+      checkAndFetch("/api/get_technical_questions").then((data) => {
+        if (data) {
+          console.log("Fetched data:", data);
+        }
+      });
+    </script>
+    <script src="static/evaluation.js"></script>
+  </body>
+</html>

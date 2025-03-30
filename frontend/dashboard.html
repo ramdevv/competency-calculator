@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    this is the dashboard
+    <script src="static/auth.js"></script>
+    <script>
+      checkAndFetch("/api/dashboard/").then((data) => {
+        if (data) {
+          console.log("Fetched data:", data);
+        }
+      });
+    </script>
+    <script src="static/dashboard.js"></script>
+  </body>
+</html>

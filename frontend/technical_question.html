@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Application</title>
+    <style>
+      /* Center elements and add spacing */
+      .quiz-container {
+        display: flex;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center align */
+        gap: 10px; /* Space between elements */
+        margin-top: 20px; /* Add space from top */
+      }
+
+      #submit_id,
+      #new_submit_id {
+        display: block;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <input
+        type="text"
+        id="job_profile_id"
+        placeholder="Enter your job profile"
+      />
+      <button type="button" id="button_id">Start the Quiz</button>
+      <p id="ques_content_id"></p>
+      <input type="button" value="Enter" id="submit_id" />
+      <button type="button" id="new_submit_id">
+        find out youre compitency score
+      </button>
+    </div>
+    <p id="questions_id"></p>
+    <script src="static/auth.js"></script>
+    <script>
+      checkAndFetch("/api/get_technical_questions").then((data) => {
+        if (data) {
+          console.log("Fetched data:", data);
+        }
+      });
+    </script>
+    <script src="static/technical.js"></script>
+  </body>
+</html>
