@@ -36,14 +36,6 @@
       </button>
     </div>
     <p id="questions_id"></p>
-    <script src="static/auth.js"></script>
-    <script>
-      checkAndFetch("/api/get_technical_questions").then((data) => {
-        if (data) {
-          console.log("Fetched data:", data);
-        }
-      });
-    </script>
     <script src="static/technical.js"></script>
   </body>
 </html>

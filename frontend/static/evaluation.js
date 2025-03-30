@@ -3,7 +3,7 @@ const start = document.getElementById("fetchScores");
 start.addEventListener("click", async () => {
   console.log(" the button was pressed ");
   try {
-    const response = await fetch("/api/evaluation", {
+    const response = await fetch("/api/scores/evaluation", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

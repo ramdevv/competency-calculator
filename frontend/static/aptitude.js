@@ -54,7 +54,7 @@ function displayMCQs(data) {
 var received_questions = "";
 button.addEventListener("click", async () => {
   try {
-    const response = await fetch("http://localhost/api/get_aptitude", {
+    const response = await fetch("/api/questions/aptitude", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +96,7 @@ async function send_request(questions, answers) {
       answers: answers,
     };
 
-    const new_response = await fetch("http://localhost/api/get_aptianswers", {
+    const new_response = await fetch("/api/answers/aptitude", {
       method: "POST",
       headers: {
         "content-type": "application/json",

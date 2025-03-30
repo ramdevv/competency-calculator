@@ -37,35 +37,32 @@ def sign_in():
     )
 
 
-@auth_bp.route("/login", methods=["POST", "GET"])
+@auth_bp.route("/login", methods=["POST"])
 def login():
 
-    if request.method == "POST":
-        username = request.json.get("username")
-        password = request.json.get("password")
-    print(username)
+    username = request.json.get("username")
+    password = request.json.get("password")
 
     if not username or not password:
-        return ({"error": "username and password are requeired"}), 400
+        return jsonify({"error": "username and password are required"}), 400
 
-    else:
-        username = username.strip()  # this would remove the white spaces from the input
-        password = password.strip()
-        login_token = "".join(
-            [random.choice("0123456789ABCDEF") for i in range(16)]
-        )  # random value in the login token
-        user_collection.update_one(
-            {"username": username},
-            {"$set": {"login_token": login_token}},
-        )
+    username = username.strip()  # this would remove the white spaces from the input
+    password = password.strip()
+    login_token = "".join(
+        [random.choice("0123456789ABCDEF") for i in range(16)]
+    )  # random value in the login token
+    user_collection.update_one(
+        {"username": username},
+        {"$set": {"login_token": login_token}},
+    )
 
-        user = get_user_by_name(username)
-        response = make_response(jsonify({"message": "login succesful"}), 200)
-        response.set_cookie("login_token", login_token, httponly=True, secure=True)
-        if user and check_password_hash(user["password"], password):
-            session[username] = True
-            return response
-        return jsonify({"error": "the username and password are incorrect"}), 401
+    user = get_user_by_name(username)
+    response = make_response(jsonify({"message": "login succesful"}), 200)
+    response.set_cookie("login_token", login_token, httponly=True, secure=True)
+    if user and check_password_hash(user["password"], password):
+        session[username] = True
+        return response
+    return jsonify({"error": "the username and password are incorrect"}), 401
 
 
 @auth_bp.route("/logout", methods=["POST"])

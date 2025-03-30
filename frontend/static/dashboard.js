@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  const response = await fetch("/api/dashboard", {
+  const response = await fetch("/api/scores/dashboard", {
     method: "GET",
     credentials: "include", // Ensures cookies are sent
   });

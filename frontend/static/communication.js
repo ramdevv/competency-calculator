@@ -45,7 +45,7 @@ function displayMCQs(data) {
 var received_questions = "";
 button.addEventListener("click", async () => {
   try {
-    const response = await fetch("http://localhost/api/get_communication", {
+    const response = await fetch("/api/questions/communications", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +91,7 @@ async function send_request(questions, answers) {
       answers: answers,
     };
 
-    const new_response = await fetch("http://localhost/api/get_comnianswers", {
+    const new_response = await fetch("/api/answers/communications", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -120,5 +120,5 @@ submitbutton.addEventListener("click", async () => {
 
 new_submitbutton.addEventListener("click", async () => {
   console.log("the new submit button was pressed ");
-  window.location.href = "./technical_question.html";
+  window.location.href = "./technical.html";
 });

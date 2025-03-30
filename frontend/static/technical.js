@@ -46,16 +46,13 @@ button.addEventListener("click", async () => {
   const job_profile_input = document.getElementById("job_profile_id").value;
 
   try {
-    const response = await fetch(
-      "http://localhost/api/get_technical_questions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ job_profile: job_profile_input }),
-      }
-    );
+    const response = await fetch("/api/questions/technical", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ job_profile: job_profile_input }),
+    });
 
     received_questions = await response.json(); // Parse JSON response
 
@@ -97,16 +94,13 @@ async function send_request(questions, answers) {
       answers: answers,
     };
 
-    const new_response = await fetch(
-      "http://localhost/api/get_technical_answers",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(full_response),
-      }
-    );
+    const new_response = await fetch("/api/answers/technical", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(full_response),
+    });
     if (!new_response.ok) {
       throw new Error(`HTTP error! Status: ${new_response.status}`); // if there is any issue with the response
     }

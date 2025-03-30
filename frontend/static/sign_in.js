@@ -6,7 +6,7 @@ document
     const formData = new FormData(this); // Capture form data correctly inside event listener
 
     try {
-      const response = await fetch("http://localhost/api/sign_in/", {
+      const response = await fetch("/api/auth/signup", {
         method: "POST",
         body: formData,
         credentials: "include",

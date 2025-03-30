@@ -93,7 +93,6 @@ def get_communication():
     response = model.generate_content(prompt)
 
     raw_text = response.text.strip()
-    print("Raw API Response:", raw_text)  #  Debugging log
 
     # Remove unwanted Markdown formatting
     cleaned_text = raw_text.replace("```json", "").replace("```", "").strip()

@@ -2,7 +2,7 @@ from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
 import os
 
-from utils import get_current_user
+from utils import get_user_by_token
 from db import score_collection
 
 ans_bp = Blueprint("ans", __name__)
@@ -64,7 +64,7 @@ def get_aptianswers():
     )  # cleans the response_text
     response_dict = json.loads(response_text)
 
-    user = get_current_user()
+    user = get_user_by_token(request.cookies.get("login_token"))
     score = response_dict["aptitude_rating"]
     print(user)
 
@@ -107,7 +107,7 @@ def get_comnianswers():
     response_dict = json.loads(response_text)
     print(response_dict)
 
-    user = get_current_user()
+    user = get_user_by_token(request.cookies.get("login_token"))
     score = response_dict["score"]
     print(user)
 
@@ -150,7 +150,7 @@ def get_technical_answers():
     response_dict = json.loads(response_text)
     print(response_dict)
 
-    user = get_current_user()
+    user = get_user_by_token(request.cookies.get("login_token"))
     score = response_dict["score"]
     print(user)
 
