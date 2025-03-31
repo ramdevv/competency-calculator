@@ -1,15 +1,16 @@
 from flask import Blueprint, request, jsonify, session
 from bson import ObjectId
 
-from utils import get_user_by_token
+from utils import secure
 from db import score_collection, user_collection
 
 score_bp = Blueprint("score", __name__)
 
 
 @score_bp.route("/evaluation", methods=["GET"])
+@secure
 def evaluation():
-    user = get_user_by_token(request.cookies.get("login_token"))
+    user = request.user
 
     if not user:
         return jsonify({"error": "User not found"}), 404
@@ -22,20 +23,25 @@ def evaluation():
     technical_score = user_scores[0]["score"]
     total_competency = (50 * technical_score) + (30 * apti_score) + (20 * comni_score)
 
-    print(total_competency)
+    table_score = {
+        "quiz1 aptitude score ": apti_score,
+        "quiz2 communication score ": comni_score,
+        "quiz3 technical score ": technical_score,
+        "compitency score ": (total_competency / 10),
+    }
 
     if not user_scores:
         return jsonify({"message": "No scores found for this user"}), 404
 
-    return jsonify(total_competency)
+    return jsonify(table_score)
 
 
 @score_bp.route("/dashboard", methods=["GET"])
+@secure
 def get_dasboard_data():
-    token = request.cookies.get("login_token")
 
     # Check if user is authenticated
-    user = get_user_by_token(token)
+    user = request.user
     if not user:
         return jsonify({"error": "Unauthorized"}), 401  # Unauthorized response
 
@@ -59,8 +65,11 @@ def get_dasboard_data():
     comni_score = user_scores[0]["score"]
     technical_score = user_scores[0]["score"]
     total_compitency = (50 * technical_score) + (30 * apti_score) + (20 * comni_score)
-    print(total_compitency)
-    print(apti_score)
-    print(comni_score)
+    table_score = {
+        "quiz1 aptitude score ": apti_score,
+        "quiz2 communication score ": comni_score,
+        "quiz3 technical score ": technical_score,
+        "compitency score ": (total_compitency / 10),
+    }
 
-    return jsonify(total_compitency), 200
+    return jsonify(table_score), 200

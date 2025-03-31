@@ -2,14 +2,17 @@ from bson import ObjectId
 from werkzeug.security import generate_password_hash
 from flask import jsonify, session, request, redirect
 import random
+from functools import wraps
 
 from db import user_collection
 
 
 def secure(func):
+    @wraps(func)
     def wrapper(*args, **kwargs):
-        if not request.cookies.get("login_token"):
-            # return jsonify({"error": "unauthorized"}), 401
+        token = request.cookies.get("login_token")
+        request.user = user_collection.find_one({"login_token": token})
+        if not request.user:
             return redirect("/login.html")
         return func(*args, **kwargs)
 

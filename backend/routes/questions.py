@@ -2,6 +2,7 @@ from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
 import os
 from utils import secure
+from functools import wraps
 
 ques_bp = Blueprint("ques", __name__)
 
@@ -10,8 +11,9 @@ genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
 
 @ques_bp.route("/aptitude", methods=["GET"])
+@secure
 def get_aptitude():
-    # Define the prompt
+    print(request.user)
     prompt = """
         Generate 10 multiple-choice aptitude questions designed to assess a candidate's cognitive abilities. Cover the following areas: logical reasoning, numerical reasoning, and verbal reasoning. Each question must have 4 distinct answer choices. Ensure the questions vary in difficulty and cover a range of problem-solving skills relevant to a technical role. 
         Each question should have 4 distinct answer choices.
@@ -28,7 +30,6 @@ def get_aptitude():
         }
     """
 
-    # Call the Gemini API
     print("Sending request to Gemini API...")
     model = genai.GenerativeModel(model_name="gemini-2.0-flash")
     response = model.generate_content(prompt)
@@ -54,6 +55,7 @@ def get_aptitude():
 
 
 @ques_bp.route("/communications", methods=["GET"])
+@secure
 def get_communication():
     prompt = """
             Okay, here's a prompt designed to generate 10 multiple-choice aptitude questions for assessing a candidate's communication skills:
@@ -108,6 +110,7 @@ def get_communication():
 
 
 @ques_bp.route("/technical", methods=["POST"])
+@secure
 def get_technical_questions():
     data = request.get_json()
     job_profile = data.get("job_profile", "software engenner")

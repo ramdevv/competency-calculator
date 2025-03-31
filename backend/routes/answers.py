@@ -2,7 +2,7 @@ from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
 import os
 
-from utils import get_user_by_token
+from utils import secure
 from db import score_collection
 
 ans_bp = Blueprint("ans", __name__)
@@ -12,6 +12,7 @@ genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
 
 @ans_bp.route("/aptitude", methods=["POST"])
+@secure
 def get_aptianswers():
     print("🔥 /api/get_aptianswers endpoint hit!")
     new_data = request.get_json()
@@ -64,7 +65,7 @@ def get_aptianswers():
     )  # cleans the response_text
     response_dict = json.loads(response_text)
 
-    user = get_user_by_token(request.cookies.get("login_token"))
+    user = request.user
     score = response_dict["aptitude_rating"]
     print(user)
 
@@ -76,6 +77,7 @@ def get_aptianswers():
 
 
 @ans_bp.route("/communications", methods=["POST"])
+@secure
 def get_comnianswers():
     new_data = request.get_json()
 
@@ -107,7 +109,7 @@ def get_comnianswers():
     response_dict = json.loads(response_text)
     print(response_dict)
 
-    user = get_user_by_token(request.cookies.get("login_token"))
+    user = request.user
     score = response_dict["score"]
     print(user)
 
@@ -119,6 +121,7 @@ def get_comnianswers():
 
 
 @ans_bp.route("/technical", methods=["POST"])
+@secure
 def get_technical_answers():
 
     new_data = request.get_json()
@@ -150,7 +153,7 @@ def get_technical_answers():
     response_dict = json.loads(response_text)
     print(response_dict)
 
-    user = get_user_by_token(request.cookies.get("login_token"))
+    user = request.user
     score = response_dict["score"]
     print(user)
 
