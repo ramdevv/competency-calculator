@@ -3,21 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Modern Quiz</title>
+    <link rel="stylesheet" href="/css/quizcss.css" />
   </head>
   <body>
-    <button type="button" id="button_id">start the quiz:</button>
-    <p id="comni_question_id"></p>
-    <style>
-      #submit_id,
-      #new_submit_id {
-        display: block; /* Stack them vertically */
-        margin-bottom: 5px; /* Optional: Add some spacing between buttons */
-      }
-    </style>
-    <input type="button" value="enter" id="submit_id" />
-    <button type="button" id="new_submit_id">next quiz</button>
+    <header>
+      <h1>TECHNICAL QUIZ</h1>
+    </header>
 
+    <div class="quiz-container">
+      <button type="button" id="button_id">START THE QUIZ</button>
+      <div id="ques_content_id" class="question-container"></div>
+      <div class="button-container">
+        <input
+          type="button"
+          value="SUBMIT"
+          id="submit_id"
+          class="submit-button hidden"
+        />
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025 Modern Quiz Interface</p>
+    </footer>
     <script src="static/communication.js"></script>
   </body>
 </html>

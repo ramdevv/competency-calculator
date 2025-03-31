@@ -3,7 +3,7 @@ const button = document.getElementById("buttonid");
 const logout = document.getElementById("logout");
 button.addEventListener("click", async () => {
   console.log("the button was pressed ");
-  window.location.href = "aptitude.html";
+  window.location.href = "./aptitude.html";
 });
 
 dashbutton.addEventListener("click", async () => {

@@ -4,14 +4,365 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0a0a0a;
+        color: #f0f0f0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navbar Styles */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 2rem;
+        background-color: rgba(20, 20, 20, 0.8);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .navbar-logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #f0f0f0, #a0a0a0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 1px;
+      }
+
+      .user-menu {
+        position: relative;
+      }
+
+      .user-btn {
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #f0f0f0;
+        padding: 0.6rem 1.2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .user-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .user-dropdown {
+        position: absolute;
+        top: 120%;
+        right: 0;
+        width: 180px;
+        background-color: rgba(30, 30, 30, 0.95);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        display: none;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .user-dropdown.show {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .dropdown-btn {
+        width: 100%;
+        text-align: left;
+        padding: 0.8rem 1rem;
+        border: none;
+        background: none;
+        color: #f0f0f0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s ease;
+      }
+
+      .dropdown-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Main Content Styles */
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem 1rem;
+      }
+
+      .animation-container {
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-bottom: 1.5rem;
+      }
+
+      .job-title {
+        font-size: 3rem;
+        font-weight: 600;
+        text-align: center;
+        margin: 0;
+        background: linear-gradient(45deg, #f0f0f0, #a0a0a0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        font-family: "Inter", "Roboto", sans-serif;
+        letter-spacing: -0.5px;
+      }
+
+      .job-title::after {
+        content: "|";
+        position: absolute;
+        right: -15px;
+        animation: blink 1s infinite;
+        color: #f0f0f0;
+      }
+
+      .description-text {
+        font-size: 1.2rem;
+        text-align: center;
+        color: #a0a0a0;
+        margin-bottom: 3rem;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        max-width: 600px;
+      }
+
+      .start-btn {
+        background: linear-gradient(45deg, #333, #555);
+        color: #f0f0f0;
+        border: none;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .start-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+
+      .start-btn:hover::before {
+        left: 100%;
+      }
+
+      .start-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .job-title {
+          font-size: 2.2rem;
+        }
+
+        .description-text {
+          font-size: 1rem;
+          padding: 0 1rem;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <!-- Page is hidden initially -->
-    <p>This is the home page</p>
-    <button type="submit" id="buttonid">Go to Aptitude</button>
-    <button type="submit" id="dashid">Dashboard</button>
-    <button type="submit" id="logout">Logout</button>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">APTITUDE</div>
+      <div class="user-menu">
+        <button class="user-btn" id="userBtn">
+          <i class="fas fa-user-circle"></i>
+          <span>Account</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <button class="dropdown-btn" id="dashid">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </button>
+          <button class="dropdown-btn" id="logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </nav>
 
-    <script src="static/home.js"></script>
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="animation-container">
+        <h1 class="job-title" id="jobProfileText">Data Scientist!</h1>
+      </div>
+      <p class="description-text">
+        Gauge your competency for any job profile with this simple test
+      </p>
+      <button class="start-btn" id="buttonid">Start Your Journey</button>
+    </main>
+
+    <script>
+      // Job profiles to animate
+      const jobProfiles = [
+        "Data Scientist",
+        "Karan Randi",
+        "Software Engineer",
+        "UI/UX Designer",
+        "Product Manager",
+        "Web Developer",
+        "AI Specialist",
+        "Cloud Architect",
+      ];
+
+      // Current index in job profiles array
+      let currentIndex = 0;
+      // Job profile display element
+      const jobProfileElement = document.getElementById("jobProfileText");
+      // Current job profile being displayed
+      let currentProfile = jobProfiles[currentIndex];
+      // Current position in typing/erasing
+      let charIndex = 0;
+      // Whether we're currently typing or erasing
+      let isTyping = true;
+
+      // Function to animate typing and erasing
+      function animateJobProfiles() {
+        if (isTyping) {
+          // Typing animation
+          if (charIndex < currentProfile.length) {
+            jobProfileElement.textContent = currentProfile.substring(
+              0,
+              charIndex + 1
+            );
+            charIndex++;
+            setTimeout(animateJobProfiles, 100);
+          } else {
+            // Finished typing, wait before erasing
+            isTyping = false;
+            setTimeout(animateJobProfiles, 2000);
+          }
+        } else {
+          // Erasing animation
+          if (charIndex > 0) {
+            jobProfileElement.textContent = currentProfile.substring(
+              0,
+              charIndex - 1
+            );
+            charIndex--;
+            setTimeout(animateJobProfiles, 50);
+          } else {
+            // Finished erasing, move to next job profile
+            isTyping = true;
+            currentIndex = (currentIndex + 1) % jobProfiles.length;
+            currentProfile = jobProfiles[currentIndex];
+            setTimeout(animateJobProfiles, 500);
+          }
+        }
+      }
+
+      // Start animation when page loads
+      window.addEventListener("load", () => {
+        animateJobProfiles();
+      });
+
+      // User dropdown functionality
+      const userBtn = document.getElementById("userBtn");
+      const userDropdown = document.getElementById("userDropdown");
+
+      userBtn.addEventListener("click", () => {
+        userDropdown.classList.toggle("show");
+      });
+
+      // Close dropdown when clicking outside
+      window.addEventListener("click", (event) => {
+        if (
+          !event.target.matches(".user-btn") &&
+          !event.target.closest(".user-btn")
+        ) {
+          if (userDropdown.classList.contains("show")) {
+            userDropdown.classList.remove("show");
+          }
+        }
+      });
+
+      // Attach event listeners to buttons
+      document
+        .getElementById("buttonid")
+        .addEventListener("click", function () {
+          window.location.href = "/aptitude.html";
+        });
+
+      document.getElementById("dashid").addEventListener("click", function () {
+        window.location.href = "/dashboard.html";
+      });
+
+      document.getElementById("logout").addEventListener("click", function () {
+        window.location.href = "/login.html";
+      });
+    </script>
   </body>
 </html>

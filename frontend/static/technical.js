@@ -1,6 +1,12 @@
 const button = document.getElementById("button_id");
 const container = document.getElementById("ques_content_id");
-const submitbutton = document.getElementById("submit_id");
+const submitButton = document.getElementById("submit_id");
+const competencyButton = document.getElementById("new_submit_id");
+const startSection = document.getElementById("start-section");
+
+// Hide submit and competency buttons initially
+submitButton.classList.add("hidden");
+competencyButton.classList.add("hidden");
 
 // Function to convert JSON into MCQ format
 function displayMCQs(data) {
@@ -13,13 +19,17 @@ function displayMCQs(data) {
 
   // Loop through each question
   data.questions.forEach((q, index) => {
+    const questionBox = document.createElement("div");
+    questionBox.className = "question-box";
+
     const questionElement = document.createElement("p");
     questionElement.textContent = `${index + 1}. ${q.question}`;
-    container.appendChild(questionElement);
+    questionBox.appendChild(questionElement);
 
     // Create radio buttons for each option
     q.options.forEach((option, optIndex) => {
       const optionWrapper = document.createElement("div");
+      optionWrapper.className = "option-wrapper";
 
       const input = document.createElement("input");
       input.type = "radio";
@@ -33,10 +43,10 @@ function displayMCQs(data) {
 
       optionWrapper.appendChild(input);
       optionWrapper.appendChild(label);
-      container.appendChild(optionWrapper);
+      questionBox.appendChild(optionWrapper);
     });
 
-    container.appendChild(document.createElement("br"));
+    container.appendChild(questionBox);
   });
 }
 
@@ -44,6 +54,11 @@ function displayMCQs(data) {
 var received_questions = "";
 button.addEventListener("click", async () => {
   const job_profile_input = document.getElementById("job_profile_id").value;
+
+  if (!job_profile_input.trim()) {
+    alert("Please enter a job profile before starting the quiz.");
+    return;
+  }
 
   try {
     const response = await fetch("/api/questions/technical", {
@@ -58,37 +73,42 @@ button.addEventListener("click", async () => {
 
     console.log("Received Questions:", received_questions);
 
-    displayMCQs(received_questions); //  Call function to format & display MCQs
+    // Hide start section (input field and start button)
+    startSection.style.display = "none";
+
+    // Display questions
+    displayMCQs(received_questions);
+
+    // Show submit button only
+    submitButton.classList.remove("hidden");
+    competencyButton.classList.add("hidden");
   } catch (error) {
     console.error("Error fetching questions:", error);
     container.textContent = "Failed to load questions!";
   }
 });
 
-// function to ittereate through the questions
+// Function to iterate through the questions and collect answers
 function collect_answers() {
   const answers = {};
-  const questionElement = document.querySelectorAll("[name^='question_']");
+  const questionElements = document.querySelectorAll("[name^='question_']");
 
-  questionElement.forEach((element) => {
+  questionElements.forEach((element) => {
     if (element.checked) {
-      const element_name = element.name; // to get the index of the questions
-
-      const question_index = element.name.split("_")[1]; //  element.name gives -> "question_0", it converts it into ["question","0"] it removes the _
-
-      const question_value = element.value; // this returns the vlue of the radio question
-
+      const question_index = element.name.split("_")[1];
+      const question_value = element.value;
       answers[question_index] = question_value;
     }
   });
-  console.log("the answers are :", answers); // this is to log the answers
+  console.log("The answers are:", answers);
 
   return answers;
 }
-// function to send the request to the backend
+
+// Function to send the request to the backend
 async function send_request(questions, answers) {
   try {
-    console.log("i am inside the sendrequest function");
+    console.log("I am inside the sendrequest function");
     const full_response = {
       questions: questions,
       answers: answers,
@@ -101,29 +121,52 @@ async function send_request(questions, answers) {
       },
       body: JSON.stringify(full_response),
     });
+
     if (!new_response.ok) {
-      throw new Error(`HTTP error! Status: ${new_response.status}`); // if there is any issue with the response
+      throw new Error(`HTTP error! Status: ${new_response.status}`);
     }
 
-    // retrieve the data
+    // Retrieve the data
     const response_data = await new_response.json();
-    console.log("message sent to backend sucesfully :", response_data);
+    console.log("Message sent to backend successfully:", response_data);
+    return true;
   } catch (error) {
-    console.error("error sending the questions : ", error);
+    console.error("Error sending the questions:", error);
+    return false;
   }
 }
 
-// add the button listener to litsen ands run both the functions after it is clicked
+// Add the button listener to listen and run both functions after it is clicked
+submitButton.addEventListener("click", async () => {
+  console.log("The submit button is pressed");
 
-submitbutton.addEventListener("click", async () => {
-  console.log(" the button is pressed ");
-  const user_answers = collect_answers(); // function to collect the answers
-  send_request(received_questions, user_answers); // to send the user answers to the backend
+  const user_answers = collect_answers(); // Function to collect the answers
+
+  // Check if user has answered all questions
+  const totalQuestions = received_questions.questions
+    ? received_questions.questions.length
+    : 0;
+  const answeredQuestions = Object.keys(user_answers).length;
+
+  if (answeredQuestions < totalQuestions) {
+    alert(
+      `Please answer all questions. You've answered ${answeredQuestions} out of ${totalQuestions} questions.`
+    );
+    return;
+  }
+
+  const success = await send_request(received_questions, user_answers);
+
+  if (success) {
+    // Hide the submit button
+    submitButton.classList.add("hidden");
+
+    // Show the competency score button only
+    competencyButton.classList.remove("hidden");
+  }
 });
 
-const new_submitbutton = document.getElementById("new_submit_id");
-
-new_submitbutton.addEventListener("click", async () => {
-  console.log("the new button was pressed");
+competencyButton.addEventListener("click", () => {
+  console.log("The competency button was pressed");
   window.location.href = "./evaluation.html";
 });
