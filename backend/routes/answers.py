@@ -155,12 +155,11 @@ def get_technical_answers():
 
     user = request.user
     score = response_dict["score"]
+
     print(user)
 
     technical_score_apti = score_collection.insert_one(
         {"username": user, "score": score}
     )
-
-    print(technical_score_apti)
-
+    response_dict["insert_id"] = str(technical_score_apti.inserted_id)
     return jsonify(response_dict)

@@ -10,13 +10,14 @@ score_bp = Blueprint("score", __name__)
 @score_bp.route("/evaluation", methods=["GET"])
 @secure
 def evaluation():
-    user = request.user
+    insert_id = session.get("insert_id")  # Get insert_id from session
 
-    if not user:
-        return jsonify({"error": "User not found"}), 404
+    if not insert_id:
+        return jsonify({"error": "Insert ID not found in session"}), 400
 
-    # Fetch all scores for the user
-    user_scores = list(score_collection.find({"username": user}, {"_id": 0}))
+    # Fetch the score using the insert_id
+    user_scores = score_collection.find_one({"_id": insert_id}, {"_id": 0})
+
     print(user_scores)
     apti_score = user_scores[0]["score"]
     comni_score = user_scores[0]["score"]
@@ -45,13 +46,6 @@ def get_dasboard_data():
     if not user:
         return jsonify({"error": "Unauthorized"}), 401  # Unauthorized response
 
-    user_id = session.get("user_id")
-
-    if not user_id:
-        return jsonify({"error": "User not logged in"}), 401
-
-    user = user_collection.find_one({"_id": ObjectId(user_id)})
-
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -73,3 +67,20 @@ def get_dasboard_data():
     }
 
     return jsonify(table_score), 200
+
+
+@score_bp.route("/get_token", methods=["POST"])
+def get_token():
+    try:
+        data = request.get_json()
+        insert_id = data.get("insert_id")
+
+        if not insert_id:
+            return jsonify({"error": "Missing insert_id"}), 400
+
+        # Store insert_id in the session
+        session["insert_id"] = insert_id
+
+        return jsonify({"message": "Insert ID stored successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
