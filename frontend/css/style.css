@@ -238,3 +238,220 @@
 	height: 1px;
 	background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
   }
+  * {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+	background-color: #0a0a0a;
+	color: #f0f0f0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+  }
+
+  /* Navbar Styles */
+  .navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1.5rem 2rem;
+	background-color: rgba(20, 20, 20, 0.8);
+	backdrop-filter: blur(10px);
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .navbar-logo {
+	font-size: 1.8rem;
+	font-weight: 700;
+	background: linear-gradient(45deg, #f0f0f0, #a0a0a0);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	letter-spacing: 1px;
+  }
+
+  .user-menu {
+	position: relative;
+  }
+
+  .user-btn {
+	background: none;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	color: #f0f0f0;
+	padding: 0.6rem 1.2rem;
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transition: all 0.3s ease;
+  }
+
+  .user-btn:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .user-dropdown {
+	position: absolute;
+	top: 120%;
+	right: 0;
+	width: 180px;
+	background-color: rgba(30, 30, 30, 0.95);
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+	display: none;
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .user-dropdown.show {
+	display: block;
+	animation: fadeIn 0.3s ease;
+  }
+
+  .dropdown-btn {
+	width: 100%;
+	text-align: left;
+	padding: 0.8rem 1rem;
+	border: none;
+	background: none;
+	color: #f0f0f0;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	transition: all 0.2s ease;
+  }
+
+  .dropdown-btn:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Main Content Styles */
+  .main-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 3rem 1rem;
+  }
+
+  .animation-container {
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	margin-bottom: 1.5rem;
+  }
+
+  .job-title {
+	font-size: 3rem;
+	font-weight: 600;
+	text-align: center;
+	margin: 0;
+	background: linear-gradient(45deg, #f0f0f0, #a0a0a0);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	position: relative;
+	font-family: "Inter", "Roboto", sans-serif;
+	letter-spacing: -0.5px;
+  }
+
+  .job-title::after {
+	content: "|";
+	position: absolute;
+	right: -15px;
+	animation: blink 1s infinite;
+	color: #f0f0f0;
+  }
+
+  .description-text {
+	font-size: 1.2rem;
+	text-align: center;
+	color: #a0a0a0;
+	margin-bottom: 3rem;
+	font-weight: 300;
+	letter-spacing: 0.5px;
+	max-width: 600px;
+  }
+
+  .start-btn {
+	background: linear-gradient(45deg, #333, #555);
+	color: #f0f0f0;
+	border: none;
+	padding: 1rem 3rem;
+	font-size: 1.2rem;
+	border-radius: 50px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+	position: relative;
+	overflow: hidden;
+  }
+
+  .start-btn::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+	  90deg,
+	  transparent,
+	  rgba(255, 255, 255, 0.2),
+	  transparent
+	);
+	transition: 0.5s;
+  }
+
+  .start-btn:hover::before {
+	left: 100%;
+  }
+
+  .start-btn:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+	from {
+	  opacity: 0;
+	  transform: translateY(-10px);
+	}
+	to {
+	  opacity: 1;
+	  transform: translateY(0);
+	}
+  }
+
+  @keyframes blink {
+	0%,
+	100% {
+	  opacity: 1;
+	}
+	50% {
+	  opacity: 0;
+	}
+  }
+
+  @media (max-width: 768px) {
+	.job-title {
+	  font-size: 2.2rem;
+	}
+
+	.description-text {
+	  font-size: 1rem;
+	  padding: 0 1rem;
+	}
+  }

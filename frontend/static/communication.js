@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const full_response = {
         questions: questions,
         answers: answers,
+        insert_id: localStorage.getItem("insert_id"),
       };
 
       const new_response = await fetch("/api/answers/communications", {

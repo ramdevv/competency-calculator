@@ -1,5 +1,6 @@
 from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
+from bson import ObjectId
 import os
 
 from utils import secure
@@ -69,11 +70,13 @@ def get_aptianswers():
     score = response_dict["aptitude_rating"]
     print(user)
 
-    quiz_score_apti = score_collection.insert_one({"username": user, "score": score})
+    quiz_score_apti = score_collection.insert_one(
+        {"username": user, "apti_score": score}
+    )
 
     print(quiz_score_apti)
 
-    return jsonify(response_dict)
+    return jsonify({"apti_inserted_id": str(quiz_score_apti.inserted_id)})
 
 
 @ans_bp.route("/communications", methods=["POST"])
@@ -113,7 +116,9 @@ def get_comnianswers():
     score = response_dict["score"]
     print(user)
 
-    quiz_score_apti = score_collection.insert_one({"username": user, "score": score})
+    quiz_score_apti = score_collection.update_one(
+        {"_id": ObjectId(new_data["insert_id"])}, {"$set": {"comni_score": score}}
+    )
 
     print(quiz_score_apti)
 
@@ -158,8 +163,9 @@ def get_technical_answers():
 
     print(user)
 
-    technical_score_apti = score_collection.insert_one(
-        {"username": user, "score": score}
+    technical_score_apti = score_collection.update_one(
+        {"_id": ObjectId(new_data["insert_id"])}, {"$set": {"technical_score": score}}
     )
-    response_dict["insert_id"] = str(technical_score_apti.inserted_id)
+
+    # response_dict["insert_id"] = str(technical_score_apti.inserted_id)
     return jsonify(response_dict)

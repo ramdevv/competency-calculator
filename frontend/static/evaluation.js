@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const scoreCard = document.getElementById("score_card");
   const loadingElement = document.getElementById("loading");
   const fetchButton = document.getElementById("fetchScores");
+  const insert_id = localStorage.getItem("insert_id");
 
   // Always fetch scores when the page loads - no need to click button
   fetchScores();
@@ -14,16 +15,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // Show loading state
     loadingElement.style.display = "flex";
     fetchButton.disabled = true;
-
+    const new_insert_id = { insert_id: insert_id };
     try {
       console.log("Fetching scores from API...");
       const response = await fetch("/api/scores/evaluation", {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(new_insert_id),
       });
-
+      if (!response.ok) {
+        console.error("there is no insert id");
+      } else {
+        localStorage.removeItem("insert_id");
+      }
       // Get the data as text first for debugging
       const responseText = await response.text();
       console.log("Raw API response:", responseText);

@@ -104,7 +104,7 @@ function collect_answers() {
 
   return answers;
 }
-
+let insertid = null;
 // Function to send the request to the backend
 async function send_request(questions, answers) {
   try {
@@ -112,6 +112,7 @@ async function send_request(questions, answers) {
     const full_response = {
       questions: questions,
       answers: answers,
+      insert_id: localStorage.getItem("insert_id"),
     };
 
     const new_response = await fetch("/api/answers/technical", {
@@ -156,8 +157,10 @@ submitButton.addEventListener("click", async () => {
   }
 
   const success = await send_request(received_questions, user_answers);
+  console.log("submitted bhai");
 
   if (success) {
+    console.log("we're inside the if");
     // Hide the submit button
     submitButton.classList.add("hidden");
 
@@ -165,8 +168,10 @@ submitButton.addEventListener("click", async () => {
     competencyButton.classList.remove("hidden");
   }
 });
-
-competencyButton.addEventListener("click", () => {
+console.log(insertid);
+competencyButton.addEventListener("click", async () => {
   console.log("The competency button was pressed");
+
+  // Redirect to the next page (optional)
   window.location.href = "./evaluation.html";
 });

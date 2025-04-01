@@ -135,7 +135,7 @@ button,
 .next-button {
   display: inline-block;
   padding: 12px 24px;
-  background-color: #6200ea;
+  background-color: #3f3c4260;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -150,7 +150,7 @@ button,
 }
 
 #button_id {
-  background: linear-gradient(135deg, #6200ea, #bb86fc);
+  background: linear-gradient(135deg, #716f745f, #a7a4ab);
   margin-bottom: 20px;
   width: 200px;
 }

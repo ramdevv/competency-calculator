@@ -109,6 +109,7 @@ async function send_request(questions, answers) {
     }
 
     const response_data = await new_response.json();
+    localStorage.setItem("insert_id", response_data.apti_inserted_id);
     console.log("Message sent to backend successfully:", response_data);
   } catch (error) {
     console.error("Error sending the questions:", error);

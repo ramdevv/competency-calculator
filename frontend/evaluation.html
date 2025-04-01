@@ -92,6 +92,61 @@
         transform: translateY(1px);
       }
 
+      /* Button container for multiple buttons */
+      .button-container {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-bottom: 25px;
+      }
+
+      /* Dashboard button with highlight */
+      .dashboard-btn {
+        background: linear-gradient(to bottom, #2a2a2a, #222);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: 1px solid #444;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .dashboard-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .dashboard-btn:hover {
+        background: linear-gradient(to bottom, #333, #222);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+        border-color: #666;
+      }
+
+      .dashboard-btn:hover::before {
+        left: 100%;
+      }
+
+      .dashboard-btn:active {
+        transform: translateY(1px);
+      }
+
       .loading {
         text-align: center;
         margin: 20px 0;
@@ -197,6 +252,11 @@
           padding: 12px 8px;
           font-size: 14px;
         }
+
+        .button-container {
+          flex-direction: column;
+          gap: 10px;
+        }
       }
     </style>
   </head>
@@ -204,7 +264,17 @@
     <div class="page-container">
       <div class="container">
         <h2>PERFORMANCE EVALUATION</h2>
-        <button id="fetchScores" class="btn">VIEW RESULTS</button>
+
+        <div class="button-container">
+          <button id="fetchScores" class="btn">VIEW RESULTS</button>
+          <button
+            id="dashboardBtn"
+            class="dashboard-btn"
+            onclick="window.location.href='home.html'"
+          >
+            GO TO DASHBOARD
+          </button>
+        </div>
 
         <div id="loading" class="loading" style="display: none">
           Loading your evaluation data
