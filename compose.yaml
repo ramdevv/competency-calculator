@@ -1,9 +1,27 @@
 services:
+  flask-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+
   webserver:
     image: caddy:2.9.1-alpine
     container_name: caddy1
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
-      - /Users/garvit/Desktop/CCC/frontend:/app
+      - ./frontend:/var/www/aptitude
+      - ./volumes/caddy_data:/data"
     ports:
       - "80:80"
+      - "443:443"
+    restart: always
+
+  mongodb:
+    image: mongo
+    container_name: mongodb1
+    volumes:
+      - "./volumes/mongo_data:/data/db"
+    restart: always
