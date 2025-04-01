@@ -1,7 +1,10 @@
 from pymongo import MongoClient
+import os
 
 
-mongo_server = MongoClient("mongodb://mongodb:27017")
+MONGO_URI = os.environ["MONGO_URI"]
+
+mongo_server = MongoClient(MONGO_URI)
 ccc_db = mongo_server.ccc_database
 
 user_collection = ccc_db.user

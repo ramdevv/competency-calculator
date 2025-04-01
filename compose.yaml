@@ -6,6 +6,7 @@ services:
     restart: always
     environment:
       GEMINI_API_KEY: ${GEMINI_API_KEY}
+      MONGO_URI: ${MONGO_URI}
 
   webserver:
     image: caddy:2.9.1-alpine
