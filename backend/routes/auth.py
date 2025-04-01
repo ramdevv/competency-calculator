@@ -58,7 +58,7 @@ def login():
 
     user = get_user_by_name(username)
     response = make_response(jsonify({"message": "login succesful"}), 200)
-    response.set_cookie("login_token", login_token, httponly=True, secure=True)
+    response.set_cookie("login_token", login_token)
     if user and check_password_hash(user["password"], password):
         session[username] = True
         return response
