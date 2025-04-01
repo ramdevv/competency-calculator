@@ -3,26 +3,339 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Compitency calculator - Login</title>
+    <style>
+      :root {
+        --primary-bg: #0d0d0d;
+        --secondary-bg: #1a1a1a;
+        --accent-color: #00e5ff;
+        --text-color: #e0e0e0;
+        --text-dark: #a0a0a0;
+        --shadow-color: rgba(0, 229, 255, 0.3);
+      }
 
-    <!-- Security Policy -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'; img-src 'self' data:;"
-    />
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
 
-    <!-- Correct favicon path (same folder as index.html) -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+      body {
+        background-color: var(--primary-bg);
+        color: var(--text-color);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-image: radial-gradient(
+            circle at 10% 20%,
+            rgba(0, 229, 255, 0.03) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(0, 229, 255, 0.03) 0%,
+            transparent 20%
+          );
+      }
+
+      header {
+        background-color: var(--secondary-bg);
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .branding h1 {
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+        margin-bottom: 0.3rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        position: relative;
+        display: inline-block;
+      }
+
+      .branding h1:after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 60%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent-color), transparent);
+      }
+
+      .branding p {
+        font-size: 0.9rem;
+        color: var(--text-dark);
+        letter-spacing: 1px;
+      }
+
+      .avatar {
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 0.8rem 1.2rem;
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .auth-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+      }
+
+      #authSection {
+        background-color: var(--secondary-bg);
+        border-radius: 12px;
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--shadow-color);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+        overflow: hidden;
+      }
+
+      #authSection:before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          60deg,
+          transparent,
+          rgba(0, 229, 255, 0.05),
+          transparent
+        );
+        transform: rotate(30deg);
+        animation: shimmer 8s infinite linear;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-30%) rotate(30deg);
+        }
+        100% {
+          transform: translateX(30%) rotate(30deg);
+        }
+      }
+
+      #authSection h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 400;
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+        position: relative;
+        z-index: 1;
+      }
+
+      #authForm {
+        position: relative;
+        z-index: 1;
+      }
+
+      #authForm input {
+        width: 100%;
+        padding: 1rem 1.2rem;
+        margin-bottom: 1.2rem;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 6px;
+        color: var(--text-color);
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        letter-spacing: 1px;
+      }
+
+      #authForm input:focus {
+        outline: none;
+        background-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 15px var(--shadow-color);
+        border-color: var(--accent-color);
+      }
+
+      #authForm input::placeholder {
+        color: var(--text-dark);
+      }
+
+      #errorMessage {
+        color: #ff4d4d;
+        font-size: 0.8rem;
+        min-height: 1.2rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .auth-buttons {
+        display: flex;
+        justify-content: center;
+      }
+
+      /* Button with Diamond Stars Effect */
+      #new_button_id {
+        color: rgb(0, 0, 0);
+        border: 2px solid var(--accent-color);
+        border-radius: 7px;
+        padding: 10px 30px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 14px;
+        background: var(--accent-color);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s ease-in-out, color 0.3s ease-in-out,
+          border-color 0.3s ease-in-out;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+      }
+
+      #new_button_id:hover {
+        background: transparent;
+        color: white;
+        border-color: white;
+        box-shadow: 0 0 15px var(--accent-color);
+      }
+
+      /* Diamond Shape Stars */
+      .stars {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background-color: white;
+        transform: rotate(45deg);
+        box-shadow: 0 0 10px white;
+        opacity: 1;
+        transition: transform 0.5s ease-out, opacity 0.5s ease-in-out;
+        z-index: 10;
+      }
+
+      .stars.large {
+        width: 10px;
+        height: 10px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 1.5rem;
+        background-color: var(--secondary-bg);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      footer .container {
+        color: var(--text-dark);
+        font-size: 0.9rem;
+      }
+
+      footer .container p {
+        position: relative;
+        display: inline-block;
+      }
+
+      footer .container p:after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 25%;
+        width: 50%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent-color),
+          transparent
+        );
+      }
+    </style>
   </head>
-
   <body>
-    <p>There are two sections to my quiz:</p>
-    <p>The first section is personality</p>
+    <header>
+      <div class="branding">
+        <h1>Login Page</h1>
+        <p>are you competent enough?</p>
+      </div>
+      <div class="avatar">
+        <p id="showUsername"></p>
+        <p id="logout"></p>
+      </div>
+    </header>
 
-    <button type="button" id="submit_id">Start</button>
-    <p id="new_r"></p>
+    <div class="auth-container">
+      <section id="authSection">
+        <form id="authForm">
+          <input type="text" name="username" placeholder="Enter Username" />
+          <input type="password" name="password" placeholder="Enter Password" />
+          <p id="errorMessage" align="left"></p>
+          <div class="auth-buttons">
+            <button type="submit" id="new_button_id">submit</button>
+          </div>
+        </form>
+      </section>
+    </div>
+    
+    <footer>
+      <div class="container">
+        <center>Dont have an account? <a href="/sign_in.html">Sign Up</a>
+        <br>
+        <p>Made with ❤️ by Garvit</p>
+      </div>
+    </footer>
 
-    <!-- Correct script path -->
-    <script src="static/script.js"></script>
+    <script src="static/login.js"></script>
+    <script>
+      const button = document.getElementById("new_button_id");
+      let stars = [];
+
+      button.addEventListener("mouseover", () => {
+        removeStars();
+        for (let i = 0; i < 5; i++) {
+          let star = document.createElement("div");
+          star.classList.add("stars");
+          if (Math.random() > 0.5) star.classList.add("large");
+          document.body.appendChild(star);
+
+          let buttonRect = button.getBoundingClientRect();
+          let startX = Math.random() * buttonRect.width + buttonRect.left;
+          let startY = Math.random() * buttonRect.height + buttonRect.top;
+
+          star.style.left = `${startX}px`;
+          star.style.top = `${startY}px`;
+
+          setTimeout(() => {
+            let angle = Math.random() * 2 * Math.PI;
+            let distance = Math.random() * 50 + 20;
+            let moveX = Math.cos(angle) * distance;
+            let moveY = Math.sin(angle) * distance;
+
+            star.style.transform = `rotate(45deg) translate(${moveX}px, ${moveY}px)`;
+            star.style.opacity = "1";
+          }, 50);
+
+          stars.push(star);
+        }
+      });
+
+      button.addEventListener("mouseleave", () => {
+        removeStars();
+      });
+
+      function removeStars() {
+        stars.forEach((star) => {
+          star.style.opacity = "0";
+          setTimeout(() => star.remove(), 500);
+        });
+        stars = [];
+      }
+    </script>
   </body>
 </html>
