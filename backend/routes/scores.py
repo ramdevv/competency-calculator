@@ -1,8 +1,8 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify
 from bson import ObjectId
 
 from utils import secure
-from db import score_collection, user_collection
+from db import score_collection
 
 score_bp = Blueprint("score", __name__)
 

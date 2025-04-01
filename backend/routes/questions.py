@@ -2,7 +2,6 @@ from flask import Blueprint, request, json, jsonify
 import google.generativeai as genai
 import os
 from utils import secure
-from functools import wraps
 
 ques_bp = Blueprint("ques", __name__)
 
