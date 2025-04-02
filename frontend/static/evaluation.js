@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fetchButton = document.getElementById("fetchScores");
   const insert_id = localStorage.getItem("insert_id");
 
+  console.log(insert_id);
   // Always fetch scores when the page loads - no need to click button
   fetchScores();
 
@@ -27,9 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       if (!response.ok) {
         console.error("there is no insert id");
-      } else {
-        localStorage.removeItem("insert_id");
-      }
+      } //else {
+      //localStorage.removeItem("insert_id");
+      //}
       // Get the data as text first for debugging
       const responseText = await response.text();
       console.log("Raw API response:", responseText);
