@@ -8,8 +8,26 @@ const startSection = document.getElementById("start-section");
 submitButton.classList.add("hidden");
 competencyButton.classList.add("hidden");
 
+// Create loading spinner function
+function createLoadingSpinner() {
+  const spinnerContainer = document.createElement("div");
+  spinnerContainer.className = "spinner-container";
+
+  const spinner = document.createElement("div");
+  spinner.className = "spinner";
+
+  spinnerContainer.appendChild(spinner);
+  return spinnerContainer;
+}
+
 // Function to convert JSON into MCQ format
 function displayMCQs(data) {
+  // Remove the loading spinner if it exists
+  const existingSpinner = container.querySelector(".spinner-container");
+  if (existingSpinner) {
+    existingSpinner.remove();
+  }
+
   container.innerHTML = ""; // Clear previous content
 
   if (!data.questions || !Array.isArray(data.questions)) {
@@ -61,6 +79,14 @@ button.addEventListener("click", async () => {
   }
 
   try {
+    // Show loading spinner
+    button.disabled = true;
+    button.textContent = "Loading...";
+
+    // Add the spinner to the container
+    container.innerHTML = "";
+    container.appendChild(createLoadingSpinner());
+
     const response = await fetch("/api/questions/technical", {
       method: "POST",
       headers: {
@@ -85,6 +111,9 @@ button.addEventListener("click", async () => {
   } catch (error) {
     console.error("Error fetching questions:", error);
     container.textContent = "Failed to load questions!";
+    button.disabled = false;
+    button.textContent = "START THE QUIZ";
+    startSection.style.display = "block"; // Show the input section again
   }
 });
 
@@ -156,8 +185,20 @@ submitButton.addEventListener("click", async () => {
     return;
   }
 
+  // Show loading state
+  submitButton.disabled = true;
+  const originalButtonText = submitButton.value;
+  submitButton.value = "Submitting...";
+
+  // Add spinner after the submit button
+  const submitSpinner = createLoadingSpinner();
+  container.appendChild(submitSpinner);
+
   const success = await send_request(received_questions, user_answers);
   console.log("submitted bhai");
+
+  // Remove the spinner
+  submitSpinner.remove();
 
   if (success) {
     console.log("we're inside the if");
@@ -166,12 +207,41 @@ submitButton.addEventListener("click", async () => {
 
     // Show the competency score button only
     competencyButton.classList.remove("hidden");
+  } else {
+    // If there was an error, restore the button
+    submitButton.disabled = false;
+    submitButton.value = originalButtonText;
+
+    // Show error message
+    const errorMsg = document.createElement("p");
+    errorMsg.textContent = "Failed to submit answers. Please try again.";
+    errorMsg.style.color = "red";
+    container.appendChild(errorMsg);
   }
 });
+
 console.log(insertid);
 competencyButton.addEventListener("click", async () => {
   console.log("The competency button was pressed");
 
-  // Redirect to the next page (optional)
-  window.location.href = "./evaluation.html";
+  // Show loading state
+  competencyButton.disabled = true;
+  const originalButtonText =
+    competencyButton.value || competencyButton.textContent;
+
+  if (competencyButton.tagName.toLowerCase() === "input") {
+    competencyButton.value = "Loading...";
+  } else {
+    competencyButton.textContent = "Loading...";
+  }
+
+  // Add spinner after the competency button
+  const competencySpinner = createLoadingSpinner();
+  container.appendChild(competencySpinner);
+
+  // Small delay to show the loading state before redirect
+  setTimeout(() => {
+    // Redirect to the next page
+    window.location.href = "./evaluation.html";
+  }, 500);
 });

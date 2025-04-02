@@ -1,4 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Test spinner visibility
+  const testSpinner = createLoadingSpinner();
+  container.appendChild(testSpinner);
+  // Remove after 3 seconds
+  setTimeout(() => {
+    testSpinner.remove();
+  }, 3000);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
   const button = document.getElementById("button_id");
   const container = document.getElementById("ques_content_id");
   const submitbutton = document.getElementById("submit_id");
@@ -8,7 +18,25 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
+  // Create loading spinner function
+  function createLoadingSpinner() {
+    const spinnerContainer = document.createElement("div");
+    spinnerContainer.className = "spinner-container";
+
+    const spinner = document.createElement("div");
+    spinner.className = "spinner";
+
+    spinnerContainer.appendChild(spinner);
+    return spinnerContainer;
+  }
+
   function displayMCQs(data) {
+    // Remove the loading spinner if it exists
+    const existingSpinner = container.querySelector(".spinner-container");
+    if (existingSpinner) {
+      existingSpinner.remove();
+    }
+
     container.innerHTML = ""; // Clear previous content
     if (!data.questions || !Array.isArray(data.questions)) {
       container.textContent = "Invalid question format received!";
@@ -53,6 +81,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   button.addEventListener("click", async () => {
     try {
+      // Show loading spinner
+      button.disabled = true;
+      button.textContent = "Loading...";
+
+      // Add the spinner to the container
+      container.innerHTML = "";
+      container.appendChild(createLoadingSpinner());
+
       const response = await fetch("/api/questions/communications", {
         method: "GET",
         headers: {
@@ -66,6 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error("Error fetching questions:", error);
       container.textContent = "Failed to load questions!";
+      button.disabled = false;
+      button.textContent = "TRY AGAIN";
     }
   });
 
@@ -110,17 +148,42 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const response_data = await new_response.json();
       console.log("Message sent to backend successfully:", response_data);
+      return true;
     } catch (error) {
       console.error("Error sending the questions:", error);
+      return false;
     }
   }
 
   // Add the button listener to listen and run both functions after it is clicked
   submitbutton.addEventListener("click", async () => {
     console.log("The submit button is pressed");
+
+    // Show loading state
+    submitbutton.disabled = true;
+    const originalButtonText = submitbutton.value;
+    submitbutton.value = "Submitting...";
+
+    // Add spinner after the submit button
+    const submitSpinner = createLoadingSpinner();
+    submitbutton.parentNode.appendChild(submitSpinner);
+
     const user_answers = collect_answers();
-    await send_request(received_questions, user_answers);
-    console.log("shubham is gay");
-    window.location.href = "technical.html";
+    const success = await send_request(received_questions, user_answers);
+
+    if (success) {
+      window.location.href = "technical.html";
+    } else {
+      // Remove spinner and restore button if there was an error
+      submitSpinner.remove();
+      submitbutton.disabled = false;
+      submitbutton.value = originalButtonText;
+
+      // Show error message
+      const errorMsg = document.createElement("p");
+      errorMsg.textContent = "Failed to submit answers. Please try again.";
+      errorMsg.style.color = "red";
+      submitbutton.parentNode.appendChild(errorMsg);
+    }
   });
 });
