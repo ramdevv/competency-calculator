@@ -3,11 +3,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const scoreCard = document.getElementById("score_card");
   const loadingElement = document.getElementById("loading");
   const fetchButton = document.getElementById("fetchScores");
-  const insertid = localStorage.getItem("insert_id");
 
   // Always fetch scores when the page loads - no need to click button
   fetchScores();
-  console.log(insertid);
+
   // Also allow fetching via button click
   fetchButton.addEventListener("click", fetchScores);
 

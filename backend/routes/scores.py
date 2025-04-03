@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from bson import ObjectId
 
-from utils import secure
+from utils import secure, get_user_by_token
 from db import score_collection
 
 score_bp = Blueprint("score", __name__)
@@ -43,16 +43,11 @@ def evaluation():
 @secure
 def get_dasboard_data():
 
-    # Check if user is authenticated
-    data = request.get_json()  # Get JSON data from request
-    print("got the insert id")
-    insert_id = data.get("insert_id")
-    print(insert_id)
-    if not insert_id:
-        return jsonify({"error": "Insert ID not found in session"}), 400
-
-    # Fetch the score using the insert_id
-    user_scores = score_collection.find_one({"_id": ObjectId(insert_id)})
+    user = request.user
+    print(user)
+    # Fetch the score
+    #  using the insert_id
+    user_scores = score_collection.find_many({"username": user})
     print("user scores: ", user_scores)
     if not user_scores:
         return jsonify({"message": "No scores found for this user"}), 404
