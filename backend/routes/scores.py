@@ -47,7 +47,7 @@ def get_dasboard_data():
     print(user)
     # Fetch the score
     #  using the insert_id
-    user_scores = score_collection.find_many({"username": user})
+    user_scores = score_collection.find_one({"username": user})
     print("user scores: ", user_scores)
     if not user_scores:
         return jsonify({"message": "No scores found for this user"}), 404
