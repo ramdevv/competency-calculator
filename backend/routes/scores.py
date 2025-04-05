@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 from bson import ObjectId
+import uuid
 
 from utils import secure, get_user_by_token
-from db import score_collection
+from db import score_collection, scorecard_collection
 
 score_bp = Blueprint("score", __name__)
 
@@ -44,14 +45,12 @@ def evaluation():
 def get_dasboard_data():
 
     user = request.user
-    print(user)
-    # Fetch the score
-    #  using the insert_id
-    user_scores_collections = score_collection.find({"username": user})
-    user_scores = list(user_scores_collections)
 
-    if not user_scores:
-        return jsonify({"message": "No scores found for this user"}), 404
+    user_scores_collections = score_collection.find({"username": user})
+
+    user_scores = list(user_scores_collections)
+    for item in user_scores_collections:
+        print("askl;djfhaskl;djfasdl;", item)
 
     response_dict = []
     quiz_no = 0
@@ -75,3 +74,18 @@ def get_dasboard_data():
         quiz_no += 1
 
     return jsonify(response_dict)
+
+
+@score_bp.route("/get_url", methods=["POST"])
+@secure
+def get_url():
+    data = request.get_json()
+
+    random_link = str(uuid.uuid4())[:16]
+    link_content = {
+        "random_id": random_link,
+        "score_content": data,
+    }
+    scorecard_collection.insert_one(link_content)
+
+    return jsonify({"link": f"http://localhost/yourscorecard/{random_link}"})

@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const scoreCard = document.getElementById("score_card");
   const loadingElement = document.getElementById("loading");
   const fetchButton = document.getElementById("fetchScores");
+  const genlink_button = document.getElementById("genlinkid");
 
   // Always fetch scores when the page loads - no need to click button
   fetchScores();
@@ -32,12 +33,13 @@ document.addEventListener("DOMContentLoaded", function () {
       let data;
       try {
         data = JSON.parse(responseText);
-        console.log("Parsed data:", data);
+        console.log("Parsed data:", data); // in this line the data is all the qize scores
       } catch (parseError) {
         console.error("Failed to parse JSON:", parseError);
         throw new Error("Invalid JSON response from server");
       }
 
+      localStorage.setItem("scorecard_data", JSON.stringify(data)); // store the data in the local storage
       // Hide loading state
       loadingElement.style.display = "none";
 
@@ -176,4 +178,18 @@ document.addEventListener("DOMContentLoaded", function () {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   }
+
+  genlink_button.addEventListener("click", async function () {
+    const score_data = localStorage.getItem("scorecard_data");
+    const response = await fetch("/api/scores//get_url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: score_data,
+    });
+    const data = await response.json();
+    const sharable_link = data.link;
+    document.getElementById("link_id").textContent = sharable_link;
+  });
 });

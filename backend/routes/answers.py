@@ -133,7 +133,7 @@ def get_technical_answers():
 
     new_prompt = f"""
             
-            You are an expert in communication assessment. You will be provided with a set of 10 multiple-choice questions designed to evaluate a candidate's communication skills, along with the candidate's answers to those questions.
+            You are an expert in communication assessment. You will be provided with a set of 10 multiple-choice questions designed to evaluate a candidate's communication skills, along with the candidate's answers to those questions,also make these questions reated to the industry of today and keep the level of the questions a little high .
             The questions cover the following areas: Clarity and Conciseness, Active Listening, Written Communication, Verbal Communication, Interpretation of Non-Verbal Cues, Adaptability in Communication, Conflict Resolution through Communication, Professional Email/Message Etiquette, Understanding and Following Instructions, and Summarization and Paraphrasing.
             For each answer, assess its accuracy and appropriateness in relation to the skill being tested.
             Based on the overall performance across all 10 questions, provide a numerical score out of 10 for the candidate's communication skills.

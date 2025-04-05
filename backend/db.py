@@ -9,3 +9,4 @@ ccc_db = mongo_server.ccc_database
 
 user_collection = ccc_db.user
 score_collection = ccc_db.score
+scorecard_collection = ccc_db.score
