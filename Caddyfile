@@ -1,5 +1,6 @@
-:80 {
-	root * /var/www/aptitude
-	file_server
-	reverse_proxy /api/* flask-api:5000
+aptitude.garv-it.tech {
+       root * /var/www/aptitude
+       file_server
+       reverse_proxy /api/* flask-api:5000
 }
+
